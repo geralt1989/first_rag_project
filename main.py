@@ -1,22 +1,26 @@
+import pandas as pd
 from embedding import EmbeddingRetriever
 from llm_interface import LocalLLM
 
-# Documento base
-document_chunks = [
-    "I dipendenti possono richiedere ferie con almeno 10 giorni di anticipo.",
-    "Le ferie non godute vanno utilizzate entro il 30 giugno dell'anno successivo.",
-    "Ogni dipendente ha diritto a 26 giorni lavorativi di ferie all’anno.",
-    "I permessi non sono cumulabili con le ferie."
-]
+# Carica CSV
+df = pd.read_csv("./spese.csv")
+
+# Prepara chunk: per ogni riga del CSV crea una stringa tipo
+document_chunks = []
+for _, row in df.iterrows():
+    # esempio: "Housing: Gen 631, Feb 823, Mar 4480, ..., Total 6971"
+    # converto i mesi in stringa: 
+    monthly = ", ".join([f"{month} {row[month]}" for month in df.columns[1:13]])
+    chunk = f"{row['Primary']}: {monthly}, Total: {row['Total']}"
+    document_chunks.append(chunk)
 
 # Query
-query = "Quanti giorni di ferie ho?"
+query = "quali sono le total expenses a april?"
 
-# Step 1-7: Retrieval
+# Retrieval
 retriever = EmbeddingRetriever(document_chunks)
 contexto = retriever.get_context(query)
 
-# Step 8: Prompt
 prompt = f"""
 Contesto:
 ---
@@ -32,7 +36,6 @@ Risposta:
 print("PROMPT FINALE:")
 print(prompt)
 
-# Step 9: LLM risposta
 llm = LocalLLM()
 risposta = llm.ask(prompt)
 
