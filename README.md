@@ -25,6 +25,7 @@ It integrates:
 ```bash
 git clone https://github.com/your-username/first_rag_project.git
 cd rag_project
+```
 
 ---
 
