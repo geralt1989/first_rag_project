@@ -26,6 +26,8 @@ It integrates:
 git clone https://github.com/your-username/first_rag_project.git
 cd rag_project
 
+---
+
 ### 2. Create and activate a virtual environment
 
 python -m venv venv
@@ -33,6 +35,8 @@ python -m venv venv
 venv\Scripts\activate
 # On macOS/Linux
 source venv/bin/activate
+
+---
 
 ## 🤖 Local LLM Setup
 
@@ -48,9 +52,13 @@ The model will typically be stored in:
 
 No need to change paths in the code if the model name matches.
 
+---
+
 ## ▶️ Run the Application
 ✔️ Terminal Version
 python main.py
+
+---
 
 ## 🌐 Web Interface
 streamlit run app.py
